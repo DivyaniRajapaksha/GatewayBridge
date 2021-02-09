@@ -1,6 +1,5 @@
-package com.gatewayBridge.utils;
+package org.wso2.carbon.apimgt.gatewayBridge.utils;
 
-import com.gatewayBridge.listeners.JMSEventListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.HttpClient;

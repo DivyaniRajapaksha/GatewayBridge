@@ -1,4 +1,4 @@
-package com.gatewayBridge.models;
+package org.wso2.carbon.apimgt.gatewayBridge.models;
 
 import java.util.Set;
 

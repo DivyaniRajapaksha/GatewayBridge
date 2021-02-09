@@ -1,4 +1,4 @@
-package com.gatewayBridge.constants;
+package org.wso2.carbon.apimgt.gatewayBridge.constants;
 
 
 import javax.xml.namespace.QName;

@@ -1,15 +1,17 @@
-package com.gatewayBridge.listeners;
+package org.wso2.carbon.apimgt.gatewayBridge.listeners;
 
 
-import com.gatewayBridge.apiRetriever.*;
-import com.gatewayBridge.constants.APIConstants;
-import com.gatewayBridge.dto.GatewayAPIDTO;
-import com.gatewayBridge.models.DeployAPIInGatewayEvent;
+import org.wso2.carbon.apimgt.gatewayBridge.apiRetriever.*;
+import org.wso2.carbon.apimgt.gatewayBridge.constants.APIConstants;
+import org.wso2.carbon.apimgt.gatewayBridge.dto.GatewayAPIDTO;
+import org.wso2.carbon.apimgt.gatewayBridge.models.DeployAPIInGatewayEvent;
 import com.google.gson.Gson;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.wso2.carbon.apimgt.gatewayBridge.apiRetriever.ArtifactRetriever;
+import org.wso2.carbon.apimgt.gatewayBridge.apiRetriever.DBRetriever;
 
 import javax.jms.*;
 import javax.naming.Context;
@@ -37,7 +39,7 @@ public class JMSEventListener implements MessageListener {
     }
 
     /**
-     * Method used to retrieve events and invoke apiRetriever
+     * Method used to listen to JMS events
      *
      * @return
      * @throws NamingException
@@ -81,7 +83,7 @@ public class JMSEventListener implements MessageListener {
     }
 
     /**
-     * Method used to subscribe to a specific topic at the startup and listens to the topic
+     * Method used to subscribe to a specific topic at the startup
      *
      * @return
      * @throws NamingException

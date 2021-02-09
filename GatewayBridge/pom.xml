@@ -62,7 +62,7 @@
                     <appendAssemblyId>false</appendAssemblyId>
                     <archive>
                         <manifest>
-                            <mainClass>com.gatewayBridge.GatewayBridge</mainClass>
+                            <mainClass>org.wso2.carbon.apimgt.gatewayBridge.GatewayBridge</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

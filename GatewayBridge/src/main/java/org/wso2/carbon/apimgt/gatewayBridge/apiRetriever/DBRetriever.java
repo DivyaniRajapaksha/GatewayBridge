@@ -1,7 +1,7 @@
-package com.gatewayBridge.apiRetriever;
+package org.wso2.carbon.apimgt.gatewayBridge.apiRetriever;
 
-import com.gatewayBridge.listeners.JMSEventListener;
-import com.gatewayBridge.utils.APIUtil;
+import org.wso2.carbon.apimgt.gatewayBridge.listeners.JMSEventListener;
+import org.wso2.carbon.apimgt.gatewayBridge.utils.APIUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,7 +23,7 @@ public class DBRetriever implements ArtifactRetriever {
     private String baseURL = "https://localhost:9443" + "/internal/data/v1";
 
     /**
-     * Method used to call traffic manager and retrieve artificats from DB
+     * Method used to retrieve gateway artificats from storage
      *
      * @param APIId              -api id
      * @param gatewayLabel
@@ -65,7 +65,7 @@ public class DBRetriever implements ArtifactRetriever {
     }
 
     /**
-     * Method used to invoke the HTTP service and return a closeableHTttpResponse
+     * Method used to get a closeableHTttpResponse
      *
      * @param endpoint
      * @return CloseableHttpResponse

@@ -1,4 +1,4 @@
-package com.gatewayBridge.dto;
+package org.wso2.carbon.apimgt.gatewayBridge.dto;
 
 
 import java.io.Serializable;
