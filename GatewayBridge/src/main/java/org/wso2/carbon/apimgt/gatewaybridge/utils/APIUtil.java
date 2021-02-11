@@ -30,21 +30,22 @@ import java.security.cert.CertificateException;
 public final class APIUtil {
     private static final Log log = LogFactory.getLog(APIUtil.class);
     private boolean debugEnabled = log.isDebugEnabled();
+    private static CloseableHttpResponse httpResponse;
 
     public static HttpClient getHttpClient(int port, String protocol) {
         String maxTotal = "100";
         String defaultMaxPerRoute = "50";
-        PoolingHttpClientConnectionManager pool = null;
         try {
-            pool = getPoolingHttpClientConnectionManager(protocol);
+            PoolingHttpClientConnectionManager pool = getPoolingHttpClientConnectionManager(protocol);
+            pool.setMaxTotal(Integer.parseInt(maxTotal));
+            pool.setDefaultMaxPerRoute(Integer.parseInt(defaultMaxPerRoute));
+
+            RequestConfig params = RequestConfig.custom().build();
+            return HttpClients.custom().setConnectionManager(pool).setDefaultRequestConfig(params).build();
         } catch (Exception e) {
             log.debug("Error while getting http client connection manager");
         }
-        pool.setMaxTotal(Integer.parseInt(maxTotal));
-        pool.setDefaultMaxPerRoute(Integer.parseInt(defaultMaxPerRoute));
-
-        RequestConfig params = RequestConfig.custom().build();
-        return HttpClients.custom().setConnectionManager(pool).setDefaultRequestConfig(params).build();
+        return null;
     }
 
     /**
@@ -57,7 +58,7 @@ public final class APIUtil {
      */
     public static CloseableHttpResponse executeHTTPRequest(HttpRequestBase method, HttpClient httpClient)
             throws IOException, Exception {
-        CloseableHttpResponse httpResponse = null;
+
         int retryCount = 0;
         boolean retry;
         do {
@@ -163,21 +164,20 @@ public final class APIUtil {
             log.debug("Pooling Connection Manager Initialisation failure because of " + e.getMessage());
         }
 
-        SSLConnectionSocketFactory sslsf = null;
         try {
-            sslsf = new SSLConnectionSocketFactory(builder.build());
+            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(builder.build());
+            Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder
+                    .<ConnectionSocketFactory>create().register("https", sslsf)
+                    .register("http", new PlainConnectionSocketFactory())
+                    .build();
+
+            PoolingHttpClientConnectionManager poolingConnectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+            poolingConnectionManager.setMaxTotal(100);
+            return poolingConnectionManager;
         } catch (KeyManagementException e) {
             log.debug("Pooling Connection Manager Initialisation failure because of " + e.getMessage());
         }
-
-        Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder
-                .<ConnectionSocketFactory>create().register("https", sslsf)
-                .register("http", new PlainConnectionSocketFactory())
-                .build();
-
-        PoolingHttpClientConnectionManager poolingConnectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
-        poolingConnectionManager.setMaxTotal(100);
-        return poolingConnectionManager;
+        return null;
     }
 
 }

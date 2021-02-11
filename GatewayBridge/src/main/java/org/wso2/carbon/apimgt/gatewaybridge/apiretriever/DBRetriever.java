@@ -33,7 +33,6 @@ public class DBRetriever implements ArtifactRetriever {
      */
 
     public String retrieveArtifact(String APIId, String gatewayLabel, String gatewayInstruction) throws IOException, Exception {
-        CloseableHttpResponse httpResponse = null;
         try {
             Thread.sleep(1);
             log.debug("Successful while waiting to retrieve artifacts from event hub");
@@ -46,7 +45,7 @@ public class DBRetriever implements ArtifactRetriever {
             String path = "/synapse-artifacts" + "?apiId=" + APIId +
                     "&gatewayInstruction=" + gatewayInstruction + "&gatewayLabel=" + endcodedgatewayLabel;
             String endpoint = baseURL + path;
-            httpResponse = invokeService(endpoint);
+            CloseableHttpResponse httpResponse = invokeService(endpoint);
             String gatewayRuntimeArtifact = null;
             if (httpResponse.getEntity() != null) {
                 gatewayRuntimeArtifact = EntityUtils.toString(httpResponse.getEntity(),
