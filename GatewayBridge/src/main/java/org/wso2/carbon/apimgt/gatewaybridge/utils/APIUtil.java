@@ -32,6 +32,15 @@ public final class APIUtil {
     private boolean debugEnabled = log.isDebugEnabled();
     private static CloseableHttpResponse httpResponse;
 
+    /**
+     * Returns a HttpClient instance
+     * This method always returns immediately, whether or not the
+     * HttpClient exists.
+     *
+     * @param port     The port of the client
+     * @param protocol Protocol use for communication
+     * @return         Executable HttpClient
+     */
     public static HttpClient getHttpClient(int port, String protocol) {
         String maxTotal = "100";
         String defaultMaxPerRoute = "50";
@@ -49,12 +58,12 @@ public final class APIUtil {
     }
 
     /**
-     * This method is used to execute an HTTP request
+     * Execute an HTTP request
      *
-     * @param method     HttpRequest Type
-     * @param httpClient HttpClient
-     * @return HTTPResponse
-     * @throws IOException
+     * @param method        HttpRequest Type
+     * @param httpClient    HttpClient
+     * @return              HTTPResponse
+     * @throws IOException  If there are any errors while executing the http request
      */
     public static CloseableHttpResponse executeHTTPRequest(HttpRequestBase method, HttpClient httpClient)
             throws IOException, Exception {
@@ -95,10 +104,11 @@ public final class APIUtil {
     }
 
     /**
-     * Return a PoolingHttpClientConnectionManager instance
+     * Returns a PoolingHttpClientConnectionManager instance
      *
-     * @param protocol- service endpoint protocol. It can be http/https
-     * @return PoolManager
+     * @param protocol      Service endpoint protocol. It can be http/https
+     * @return              PoolManager instance
+     * @throws IOException  If there are any errors while returning the PoolManager
      */
     private static PoolingHttpClientConnectionManager getPoolingHttpClientConnectionManager(String protocol)
             throws Exception {
@@ -117,6 +127,14 @@ public final class APIUtil {
         return poolManager;
     }
 
+    /**
+     * Returns a SSLConnectionSocketFactory instance
+     * Creates a socket and connects it to the specified remote host at the specified remote port.
+     * This socket is configured using the socket options established for this factory.
+     *
+     * @return              SSLConnectionSocketFactory instance
+     * @throws Exception    If there are any errors while creating an authenticated socket
+     */
     public static SSLConnectionSocketFactory createSocketFactory() throws Exception {
         SSLContext sslContext;
 
@@ -156,6 +174,15 @@ public final class APIUtil {
         return null;
     }
 
+    /**
+     * Returns PoolingHttpClientConnectionManager instance
+     * This method creates a pooling connection manager with
+     * the provided SSLConnectionSocketFactory.
+     *
+     * @return                          PoolingHttpClientConnectionManager instance
+     * @throws NoSuchAlgorithmException Occurs when cryptographic algorithm is requested but is not available in the environment.
+     * @throws KeyStoreException        If an keystore authentication error occurs.
+     */
     public static PoolingHttpClientConnectionManager poolingConnectionManager() throws NoSuchAlgorithmException, KeyStoreException {
         SSLContextBuilder builder = new SSLContextBuilder();
         try {

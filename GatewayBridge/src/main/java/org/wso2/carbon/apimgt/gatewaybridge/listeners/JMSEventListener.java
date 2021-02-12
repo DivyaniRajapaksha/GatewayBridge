@@ -32,6 +32,9 @@ public class JMSEventListener implements MessageListener {
 
     ArtifactRetriever artifactRetriever = new DBRetriever();
 
+    /**
+     * This constructs a JMSEventListener instance
+     */
     public JMSEventListener() {
         if (log.isDebugEnabled()) {
             log.debug("Called JMSEventListener");
@@ -39,12 +42,14 @@ public class JMSEventListener implements MessageListener {
     }
 
     /**
-     * Method used to listen to JMS events
+     * Listens to JMS events
+     * This method retrieves the events published to a specifc topic.
+     * Retrieved message is decoded and extract
+     * the event details.
+     * <p>
+     * This method in retrieves the gateway run time artifatcs
      *
-     * @return
-     * @throws NamingException
-     * @throws JMSException
-     * @throws InterruptedException
+     * @param message JMS message received from the topic
      */
     public void onMessage(Message message) {
 
@@ -83,12 +88,16 @@ public class JMSEventListener implements MessageListener {
     }
 
     /**
-     * Method used to subscribe to a specific topic at the startup
+     * Subscribe to a topic at the startup
+     * Creates a non-durable topic consumer.
+     * <p>
+     * This method subscribe to a created topic and
+     * listens to the topic.
      *
-     * @return
-     * @throws NamingException
-     * @throws JMSException
-     * @throws InterruptedException
+     * @throws NamingException      If an authentication error occurs while accessing the JNDI naming service.
+     * @throws JMSException         If a JMS services error occurs while using JMS service.
+     * @throws InterruptedException If an error occurs while executing the thread.
+     * @throws IOException          If an error occurs while perorming I/O operations.
      */
     public void setSubscriber() throws NamingException, JMSException, InterruptedException, IOException {
         Properties properties = new Properties();

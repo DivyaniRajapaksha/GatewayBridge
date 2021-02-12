@@ -18,18 +18,20 @@ import java.net.URLEncoder;
  * Class for retrieving specific api details
  */
 public class DBRetriever implements ArtifactRetriever {
+
     private static final Log log = LogFactory.getLog(JMSEventListener.class);
     private boolean debugEnabled = log.isDebugEnabled();
     private String baseURL = "https://localhost:9443" + "/internal/data/v1";
 
     /**
-     * Method used to retrieve gateway artificats from storage
+     * This method is used to retrieve data from the storage
      *
-     * @param APIId              -api id
-     * @param gatewayLabel
-     * @param gatewayInstruction
-     * @throws IOException
-     * @throws Exception
+     * @param APIId                 UUID of the API
+     * @param gatewayLabel          Label subscribed by the gateway
+     * @param gatewayInstruction    Whether this is to publish or remove the API from gateway
+     * @return                       A String contains all the information about the API and gateway artifacts
+     * @throws IOException          If there are any errors while executing the http client
+     * @throws Exception            If there are any errors when retrieving the Artifacts
      */
 
     public String retrieveArtifact(String APIId, String gatewayLabel, String gatewayInstruction) throws IOException, Exception {
@@ -64,12 +66,16 @@ public class DBRetriever implements ArtifactRetriever {
     }
 
     /**
-     * Method used to get a closeableHTttpResponse
+     * Return a CloseableHttpResponse instance
+     * This method is used to invoke a http service for a given endpoint url
+     *<p>
+     *This method returns a CloseableHttpResponse instance
+     * that implements Closeable interface
      *
-     * @param endpoint
-     * @return CloseableHttpResponse
-     * @throws IOException
-     * @throws Exception
+     * @param endpoint                   Absolute URL endpoint
+     * @return CloseableHttpResponse     CloseableHttpResponse that doesn't have a close method itself
+     * @throws IOException               If there are any errors while executing the http request
+     * @throws Exception                 If there are any errors when returning a CloseableHttpResponse
      */
     private CloseableHttpResponse invokeService(String endpoint) throws IOException, Exception {
         HttpGet method = new HttpGet(endpoint);
