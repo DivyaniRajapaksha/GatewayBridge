@@ -1,7 +1,7 @@
 package org.wso2.carbon.apimgt.gatewayBridge.listeners;
 
 
-import org.wso2.carbon.apimgt.gatewayBridge.apiRetriever.*;
+import org.wso2.carbon.apimgt.gatewayBridge.apiretriever.*;
 import org.wso2.carbon.apimgt.gatewayBridge.constants.APIConstants;
 import org.wso2.carbon.apimgt.gatewayBridge.dto.GatewayAPIDTO;
 import org.wso2.carbon.apimgt.gatewayBridge.models.DeployAPIInGatewayEvent;
@@ -10,8 +10,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.wso2.carbon.apimgt.gatewayBridge.apiRetriever.ArtifactRetriever;
-import org.wso2.carbon.apimgt.gatewayBridge.apiRetriever.DBRetriever;
+
 
 import javax.jms.*;
 import javax.naming.Context;
@@ -77,6 +76,7 @@ public class JMSEventListener implements MessageListener {
                     if (StringUtils.isNotEmpty(gatewayRuntimeArtifact)) {
                         GatewayAPIDTO gatewayAPIDTO = new Gson().fromJson(gatewayRuntimeArtifact, GatewayAPIDTO.class);
                         log.debug("GatewayAPIDTO" + gatewayAPIDTO);
+                        log.debug("GatewayAPIDTO Name" + gatewayAPIDTO.getName());
                     }
 
                 }

@@ -1,4 +1,4 @@
-package org.wso2.carbon.apimgt.gatewayBridge.apiRetriever;
+package org.wso2.carbon.apimgt.gatewayBridge.apiretriever;
 
 
 public interface ArtifactRetriever {

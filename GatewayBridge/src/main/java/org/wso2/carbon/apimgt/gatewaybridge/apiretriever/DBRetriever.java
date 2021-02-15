@@ -1,7 +1,7 @@
-package org.wso2.carbon.apimgt.gatewayBridge.apiRetriever;
+package org.wso2.carbon.apimgt.gatewayBridge.apiretriever;
 
 import org.wso2.carbon.apimgt.gatewayBridge.listeners.JMSEventListener;
-import org.wso2.carbon.apimgt.gatewayBridge.utils.APIUtil;
+import org.wso2.carbon.apimgt.gatewayBridge.utils.*;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -89,6 +89,7 @@ public class DBRetriever implements ArtifactRetriever {
         method.setHeader("Authorization", "Basic "
                 + new String(credentials, "UTF-8"));
         HttpClient httpClient = APIUtil.getHttpClient(port, protocol);
+       // HttpClient httpClient = HttpUtil.getService();
         try {
             return APIUtil.executeHTTPRequest(method, httpClient);
         } catch (Exception e) {
