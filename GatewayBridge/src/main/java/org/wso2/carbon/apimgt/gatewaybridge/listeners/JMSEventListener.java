@@ -75,8 +75,8 @@ public class JMSEventListener implements MessageListener {
                     String gatewayRuntimeArtifact = artifactRetriever.retrieveArtifact(gatewayEvent.getApiId(), gatewayLabel, "Publish");
                     if (StringUtils.isNotEmpty(gatewayRuntimeArtifact)) {
                         GatewayAPIDTO gatewayAPIDTO = new Gson().fromJson(gatewayRuntimeArtifact, GatewayAPIDTO.class);
-                        log.debug("GatewayAPIDTO" + gatewayAPIDTO);
-                        log.debug("GatewayAPIDTO Name" + gatewayAPIDTO.getName());
+                        log.debug("GatewayAPIDTO    :" + gatewayAPIDTO);
+                        log.debug("GatewayAPIDTO Name       :" + gatewayAPIDTO.getName());
                     }
 
                 }
