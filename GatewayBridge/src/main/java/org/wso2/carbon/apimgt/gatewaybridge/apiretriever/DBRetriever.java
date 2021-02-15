@@ -13,6 +13,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Class for retrieving specific api details
@@ -20,8 +21,6 @@ import java.net.URLEncoder;
 public class DBRetriever implements ArtifactRetriever {
 
     private static final Log log = LogFactory.getLog(JMSEventListener.class);
-    private boolean debugEnabled = log.isDebugEnabled();
-    private String baseURL = "https://localhost:9443" + "/internal/data/v1";
 
     /**
      * This method is used to retrieve data from the storage
@@ -46,6 +45,7 @@ public class DBRetriever implements ArtifactRetriever {
             String endcodedgatewayLabel = URLEncoder.encode(gatewayLabel, "UTF-8");
             String path = "/synapse-artifacts" + "?apiId=" + APIId +
                     "&gatewayInstruction=" + gatewayInstruction + "&gatewayLabel=" + endcodedgatewayLabel;
+            String baseURL = "https://localhost:9443" + "/internal/data/v1";
             String endpoint = baseURL + path;
             CloseableHttpResponse httpResponse = invokeService(endpoint);
             String gatewayRuntimeArtifact = null;
@@ -53,9 +53,8 @@ public class DBRetriever implements ArtifactRetriever {
                 gatewayRuntimeArtifact = EntityUtils.toString(httpResponse.getEntity(),
                         "UTF-8");
                 httpResponse.close();
-            } else {
-                //    throw new ArtifactSynchronizerException("HTTP response is empty");
-            }
+            }  //    throw new ArtifactSynchronizerException("HTTP response is empty");
+
             return gatewayRuntimeArtifact;
 
         } catch (IOException e) {
@@ -83,14 +82,16 @@ public class DBRetriever implements ArtifactRetriever {
         String username = "admin";
         String password = "admin";
         byte[] credentials = Base64.encodeBase64((username + ":" + password).
-                getBytes("UTF-8"));
+                getBytes(StandardCharsets.UTF_8));
         int port = url.getPort();
         String protocol = url.getProtocol();
         method.setHeader("Authorization", "Basic "
-                + new String(credentials, "UTF-8"));
-        HttpClient httpClient = APIUtil.getHttpClient(port, protocol);
-       // HttpClient httpClient = HttpUtil.getService();
+                + new String(credentials, StandardCharsets.UTF_8));
+        HttpClient httpClient;
+        httpClient = APIUtil.getHttpClient(port, protocol);
+        // HttpClient httpClient = HttpUtil.getService();
         try {
+            assert httpClient != null;
             return APIUtil.executeHTTPRequest(method, httpClient);
         } catch (Exception e) {
             throw new Exception(e);
@@ -99,3 +100,5 @@ public class DBRetriever implements ArtifactRetriever {
 
 
 }
+
+

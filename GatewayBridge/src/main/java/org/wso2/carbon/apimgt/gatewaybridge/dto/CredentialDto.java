@@ -10,23 +10,11 @@ public class CredentialDto {
     private String alias;
     private String password;
 
-    public String getAlias() {
-
-        return alias;
+    public CredentialDto() {
     }
 
-    public void setAlias(String alias) {
-
+    public CredentialDto(String alias, String password) {
         this.alias = alias;
-    }
-
-    public String getPassword() {
-
-        return password;
-    }
-
-    public void setPassword(String password) {
-
         this.password = password;
     }
 

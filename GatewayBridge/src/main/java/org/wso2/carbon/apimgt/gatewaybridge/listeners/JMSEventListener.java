@@ -1,22 +1,21 @@
 package org.wso2.carbon.apimgt.gatewaybridge.listeners;
 
 
-import org.wso2.carbon.apimgt.gatewaybridge.apiretriever.*;
-import org.wso2.carbon.apimgt.gatewaybridge.constants.APIConstants;
-import org.wso2.carbon.apimgt.gatewaybridge.dto.GatewayAPIDTO;
-import org.wso2.carbon.apimgt.gatewaybridge.models.DeployAPIInGatewayEvent;
 import com.google.gson.Gson;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import org.wso2.carbon.apimgt.gatewaybridge.apiretriever.ArtifactRetriever;
+import org.wso2.carbon.apimgt.gatewaybridge.apiretriever.DBRetriever;
+import org.wso2.carbon.apimgt.gatewaybridge.constants.APIConstants;
+import org.wso2.carbon.apimgt.gatewaybridge.dto.GatewayAPIDTO;
+import org.wso2.carbon.apimgt.gatewaybridge.models.DeployAPIInGatewayEvent;
 
 import javax.jms.*;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +26,6 @@ import java.util.Properties;
  */
 public class JMSEventListener implements MessageListener {
     private static final Log log = LogFactory.getLog(JMSEventListener.class);
-    private boolean debugEnabled = log.isDebugEnabled();
 
     ArtifactRetriever artifactRetriever = new DBRetriever();
 
@@ -57,7 +55,7 @@ public class JMSEventListener implements MessageListener {
         try {
             if (message instanceof MapMessage) {
                 MapMessage mapMessage = (MapMessage) message;
-                Map<String, Object> map = new HashMap<String, Object>();
+                Map<String, Object> map = new HashMap<>();
                 Enumeration enumeration = mapMessage.getMapNames();
                 while (enumeration.hasMoreElements()) {
                     String key = (String) enumeration.nextElement();
@@ -67,7 +65,7 @@ public class JMSEventListener implements MessageListener {
                 DeployAPIInGatewayEvent gatewayEvent = new Gson().fromJson(new String(eventDecoded), DeployAPIInGatewayEvent.class);
 
 
-                if ((APIConstants.EventType.DEPLOY_API_IN_GATEWAY.name().equals((String) map.get("eventType")))) {
+                if ((APIConstants.EventType.DEPLOY_API_IN_GATEWAY.name().equals(map.get("eventType")))) {
 
                     log.debug("Gatewaylabels" + gatewayEvent.getGatewayLabels());
 
@@ -97,9 +95,8 @@ public class JMSEventListener implements MessageListener {
      * @throws NamingException      If an authentication error occurs while accessing the JNDI naming service.
      * @throws JMSException         If a JMS services error occurs while using JMS service.
      * @throws InterruptedException If an error occurs while executing the thread.
-     * @throws IOException          If an error occurs while perorming I/O operations.
      */
-    public void setSubscriber() throws NamingException, JMSException, InterruptedException, IOException {
+    public void setSubscriber() throws NamingException, JMSException, InterruptedException {
         Properties properties = new Properties();
         properties.put("java.naming.factory.initial", "org.wso2.andes.jndi.PropertiesFileInitialContextFactory");
         properties.setProperty("connectionfactory.TopicConnectionFactory", "amqp://admin:admin@clientid/carbon?brokerlist='tcp://localhost:5672?retries='5'%26connectdelay='50';tcp://localhost:5672?retries='5'%26connectdelay='50';'");

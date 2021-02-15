@@ -29,7 +29,6 @@ import java.security.cert.CertificateException;
  */
 public final class APIUtil {
     private static final Log log = LogFactory.getLog(APIUtil.class);
-    private boolean debugEnabled = log.isDebugEnabled();
     private static CloseableHttpResponse httpResponse;
 
     /**
@@ -66,7 +65,7 @@ public final class APIUtil {
      * @throws IOException  If there are any errors while executing the http request
      */
     public static CloseableHttpResponse executeHTTPRequest(HttpRequestBase method, HttpClient httpClient)
-            throws IOException, Exception {
+            throws Exception {
 
         int retryCount = 0;
         boolean retry;
@@ -117,6 +116,7 @@ public final class APIUtil {
         if ("https".equals(protocol)) {
 
             SSLConnectionSocketFactory socketFactory = createSocketFactory();
+            assert socketFactory != null;
             org.apache.http.config.Registry<ConnectionSocketFactory> socketFactoryRegistry =
                     RegistryBuilder.<ConnectionSocketFactory>create()
                             .register("https", socketFactory).build();
@@ -133,9 +133,8 @@ public final class APIUtil {
      * This socket is configured using the socket options established for this factory.
      *
      * @return              SSLConnectionSocketFactory instance
-     * @throws Exception    If there are any errors while creating an authenticated socket
      */
-    public static SSLConnectionSocketFactory createSocketFactory() throws Exception {
+    public static SSLConnectionSocketFactory createSocketFactory() {
         SSLContext sslContext;
 
         String keyStorePath = "/home/user/Desktop/New_Test/gateways/gateway-3/repository/resources/security/client-truststore.jks";
@@ -208,3 +207,5 @@ public final class APIUtil {
     }
 
 }
+
+
