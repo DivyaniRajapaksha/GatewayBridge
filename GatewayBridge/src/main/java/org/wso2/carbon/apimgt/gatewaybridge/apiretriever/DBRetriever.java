@@ -1,7 +1,7 @@
 package org.wso2.carbon.apimgt.gatewaybridge.apiretriever;
 
-import org.wso2.carbon.apimgt.gatewayBridge.listeners.JMSEventListener;
-import org.wso2.carbon.apimgt.gatewayBridge.utils.*;
+import org.wso2.carbon.apimgt.gatewaybridge.listeners.JMSEventListener;
+import org.wso2.carbon.apimgt.gatewaybridge.utils.*;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

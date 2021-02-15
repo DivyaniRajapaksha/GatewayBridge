@@ -1,6 +1,6 @@
 package org.wso2.carbon.apimgt.gatewaybridge;
 
-import org.wso2.carbon.apimgt.gatewayBridge.listeners.JMSEventListener;
+import org.wso2.carbon.apimgt.gatewaybridge.listeners.JMSEventListener;
 
 import javax.jms.JMSException;
 import javax.naming.NamingException;
