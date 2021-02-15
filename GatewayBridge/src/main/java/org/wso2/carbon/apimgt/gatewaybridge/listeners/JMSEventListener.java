@@ -1,10 +1,10 @@
 package org.wso2.carbon.apimgt.gatewaybridge.listeners;
 
 
-import org.wso2.carbon.apimgt.gatewayBridge.apiretriever.*;
-import org.wso2.carbon.apimgt.gatewayBridge.constants.APIConstants;
-import org.wso2.carbon.apimgt.gatewayBridge.dto.GatewayAPIDTO;
-import org.wso2.carbon.apimgt.gatewayBridge.models.DeployAPIInGatewayEvent;
+import org.wso2.carbon.apimgt.gatewaybridge.apiretriever.*;
+import org.wso2.carbon.apimgt.gatewaybridge.constants.APIConstants;
+import org.wso2.carbon.apimgt.gatewaybridge.dto.GatewayAPIDTO;
+import org.wso2.carbon.apimgt.gatewaybridge.models.DeployAPIInGatewayEvent;
 import com.google.gson.Gson;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
