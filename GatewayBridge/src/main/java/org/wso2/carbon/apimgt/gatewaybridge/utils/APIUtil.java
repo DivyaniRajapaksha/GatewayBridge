@@ -173,38 +173,6 @@ public final class APIUtil {
         return null;
     }
 
-    /**
-     * Returns PoolingHttpClientConnectionManager instance
-     * This method creates a pooling connection manager with
-     * the provided SSLConnectionSocketFactory.
-     *
-     * @return                          PoolingHttpClientConnectionManager instance
-     * @throws NoSuchAlgorithmException Occurs when cryptographic algorithm is requested but is not available in the environment.
-     * @throws KeyStoreException        If an keystore authentication error occurs.
-     */
-    public static PoolingHttpClientConnectionManager poolingConnectionManager() throws NoSuchAlgorithmException, KeyStoreException {
-        SSLContextBuilder builder = new SSLContextBuilder();
-        try {
-            builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
-        } catch (NoSuchAlgorithmException e) {
-            log.debug("Pooling Connection Manager Initialisation failure because of " + e.getMessage());
-        }
-
-        try {
-            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(builder.build());
-            Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder
-                    .<ConnectionSocketFactory>create().register("https", sslsf)
-                    .register("http", new PlainConnectionSocketFactory())
-                    .build();
-
-            PoolingHttpClientConnectionManager poolingConnectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
-            poolingConnectionManager.setMaxTotal(100);
-            return poolingConnectionManager;
-        } catch (KeyManagementException e) {
-            log.debug("Pooling Connection Manager Initialisation failure because of " + e.getMessage());
-        }
-        return null;
-    }
 
 }
 
