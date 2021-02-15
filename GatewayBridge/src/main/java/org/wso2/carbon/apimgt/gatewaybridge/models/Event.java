@@ -1,4 +1,4 @@
-package org.wso2.carbon.apimgt.gatewayBridge.models;
+package org.wso2.carbon.apimgt.gatewaybridge.models;
 
 import java.io.Serializable;
 

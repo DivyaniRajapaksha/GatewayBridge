@@ -1,4 +1,4 @@
-package org.wso2.carbon.apimgt.gatewayBridge.apiretriever;
+package org.wso2.carbon.apimgt.gatewaybridge.apiretriever;
 
 import org.wso2.carbon.apimgt.gatewayBridge.listeners.JMSEventListener;
 import org.wso2.carbon.apimgt.gatewayBridge.utils.*;

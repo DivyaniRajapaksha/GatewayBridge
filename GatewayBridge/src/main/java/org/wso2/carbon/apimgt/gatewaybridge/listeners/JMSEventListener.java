@@ -1,4 +1,4 @@
-package org.wso2.carbon.apimgt.gatewayBridge.listeners;
+package org.wso2.carbon.apimgt.gatewaybridge.listeners;
 
 
 import org.wso2.carbon.apimgt.gatewayBridge.apiretriever.*;

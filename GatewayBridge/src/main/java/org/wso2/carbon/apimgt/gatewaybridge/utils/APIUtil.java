@@ -1,4 +1,4 @@
-package org.wso2.carbon.apimgt.gatewayBridge.utils;
+package org.wso2.carbon.apimgt.gatewaybridge.utils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
