@@ -1,6 +1,5 @@
 package org.wso2.carbon.apimgt.gatewaybridge.listeners;
 
-
 import com.google.gson.Gson;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
@@ -12,14 +11,23 @@ import org.wso2.carbon.apimgt.gatewaybridge.constants.APIConstants;
 import org.wso2.carbon.apimgt.gatewaybridge.dto.GatewayAPIDTO;
 import org.wso2.carbon.apimgt.gatewaybridge.models.DeployAPIInGatewayEvent;
 
-import javax.jms.*;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
+import javax.jms.JMSException;
+import javax.jms.MapMessage;
+import javax.jms.Message;
+import javax.jms.MessageConsumer;
+import javax.jms.MessageListener;
+import javax.jms.Session;
+import javax.jms.Topic;
+import javax.jms.TopicSession;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 /**
  * Class for listening to the JMS Events for a specific topic
@@ -46,7 +54,7 @@ public class JMSEventListener implements MessageListener {
      * <p>
      * This method in retrieves the gateway run time artifatcs
      *
-     * @param message JMS message received from the topic
+     * @param message the JMS message received from the topic
      */
     public void onMessage(Message message) {
 
@@ -67,7 +75,7 @@ public class JMSEventListener implements MessageListener {
 
                 if ((APIConstants.EventType.DEPLOY_API_IN_GATEWAY.name().equals(map.get("eventType")))) {
 
-                    log.debug("Gatewaylabels" + gatewayEvent.getGatewayLabels());
+                    log.debug("GatewayLabels" + gatewayEvent.getGatewayLabels());
 
                     String gatewayLabel = gatewayEvent.getGatewayLabels().iterator().next();
                     String gatewayRuntimeArtifact = artifactRetriever.retrieveArtifact(gatewayEvent.getApiId(), gatewayLabel, "Publish");

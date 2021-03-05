@@ -6,16 +6,16 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
-import org.apache.http.conn.socket.PlainConnectionSocketFactory;
-import org.apache.http.conn.ssl.*;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLContexts;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 
-import javax.net.ssl.SSLContext;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.KeyManagementException;
@@ -23,6 +23,7 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
+import javax.net.ssl.SSLContext;
 
 /**
  * Class for creating HTTP connection
@@ -36,9 +37,9 @@ public final class APIUtil {
      * This method always returns immediately, whether or not the
      * HttpClient exists.
      *
-     * @param port     The port of the client
-     * @param protocol Protocol use for communication
-     * @return         Executable HttpClient
+     * @param port     the port of the client
+     * @param protocol the Protocol use for communication
+     * @return  a executable HttpClient
      */
     public static HttpClient getHttpClient(int port, String protocol) {
         String maxTotal = "100";
@@ -59,9 +60,9 @@ public final class APIUtil {
     /**
      * Execute an HTTP request
      *
-     * @param method        HttpRequest Type
-     * @param httpClient    HttpClient
-     * @return              HTTPResponse
+     * @param method        the HttpRequest Type
+     * @param httpClient    the HttpClient
+     * @return  a HTTPResponse
      * @throws IOException  If there are any errors while executing the http request
      */
     public static CloseableHttpResponse executeHTTPRequest(HttpRequestBase method, HttpClient httpClient)
@@ -105,12 +106,10 @@ public final class APIUtil {
     /**
      * Returns a PoolingHttpClientConnectionManager instance
      *
-     * @param protocol      Service endpoint protocol. It can be http/https
-     * @return              PoolManager instance
-     * @throws IOException  If there are any errors while returning the PoolManager
+     * @param protocol      the service endpoint protocol. It can be http/https
+     * @return  a PoolManager instance
      */
-    private static PoolingHttpClientConnectionManager getPoolingHttpClientConnectionManager(String protocol)
-            throws Exception {
+    private static PoolingHttpClientConnectionManager getPoolingHttpClientConnectionManager(String protocol){
 
         PoolingHttpClientConnectionManager poolManager;
         if ("https".equals(protocol)) {
@@ -132,7 +131,7 @@ public final class APIUtil {
      * Creates a socket and connects it to the specified remote host at the specified remote port.
      * This socket is configured using the socket options established for this factory.
      *
-     * @return              SSLConnectionSocketFactory instance
+     * @return  a SSLConnectionSocketFactory instance
      */
     public static SSLConnectionSocketFactory createSocketFactory() {
         SSLContext sslContext;

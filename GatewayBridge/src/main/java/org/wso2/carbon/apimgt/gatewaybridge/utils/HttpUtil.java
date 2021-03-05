@@ -20,8 +20,7 @@ public final class HttpUtil {
      * Returns a CloseableHttpClient instance
      * This method always returns immediately, whether or not the
      * CloseableHttpClient exists.
-     *
-     * @return         Executable CloseableHttpClient
+     * @return an executable CloseableHttpClient
      */
     public static CloseableHttpClient getService() {
         try {

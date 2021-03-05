@@ -10,14 +10,6 @@ public class CredentialDto {
     private String alias;
     private String password;
 
-    public CredentialDto() {
-    }
-
-    public CredentialDto(String alias, String password) {
-        this.alias = alias;
-        this.password = password;
-    }
-
     @Override
     public boolean equals(Object o) {
 

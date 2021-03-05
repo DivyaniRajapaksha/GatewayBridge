@@ -1,7 +1,5 @@
 package org.wso2.carbon.apimgt.gatewaybridge.apiretriever;
 
-import org.wso2.carbon.apimgt.gatewaybridge.listeners.JMSEventListener;
-import org.wso2.carbon.apimgt.gatewaybridge.utils.*;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -9,6 +7,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
+import org.wso2.carbon.apimgt.gatewaybridge.listeners.JMSEventListener;
+import org.wso2.carbon.apimgt.gatewaybridge.utils.APIUtil;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,28 +23,21 @@ public class DBRetriever implements ArtifactRetriever {
     private static final Log log = LogFactory.getLog(JMSEventListener.class);
 
     /**
-     * This method is used to retrieve data from the storage
+     * Retrieve data from the storage
      *
-     * @param APIId                 UUID of the API
-     * @param gatewayLabel          Label subscribed by the gateway
-     * @param gatewayInstruction    Whether this is to publish or remove the API from gateway
-     * @return                       A String contains all the information about the API and gateway artifacts
-     * @throws IOException          If there are any errors while executing the http client
-     * @throws Exception            If there are any errors when retrieving the Artifacts
+     * @param APIId              the UUID of the API
+     * @param gatewayLabel       the label subscribed by the gateway
+     * @param gatewayInstruction an instruction to check whether this is to publish or remove the API from gateway
+     * @return  a String contains all the information about the API and gateway artifacts
+     * @throws Exception  If there are any errors when retrieving the Artifacts
      */
 
-    public String retrieveArtifact(String APIId, String gatewayLabel, String gatewayInstruction) throws IOException, Exception {
-        try {
-            Thread.sleep(1);
-            log.debug("Successful while waiting to retrieve artifacts from event hub");
-        } catch (InterruptedException e) {
-            log.error("Error occurred while waiting to retrieve artifacts from event hub");
-        }
+    public String retrieveArtifact(String APIId, String gatewayLabel, String gatewayInstruction) throws  Exception {
 
         try {
-            String endcodedgatewayLabel = URLEncoder.encode(gatewayLabel, "UTF-8");
+            String endcodedGatewayLabel = URLEncoder.encode(gatewayLabel, "UTF-8");
             String path = "/synapse-artifacts" + "?apiId=" + APIId +
-                    "&gatewayInstruction=" + gatewayInstruction + "&gatewayLabel=" + endcodedgatewayLabel;
+                    "&gatewayInstruction=" + gatewayInstruction + "&gatewayLabel=" + endcodedGatewayLabel;
             String baseURL = "https://localhost:9443" + "/internal/data/v1";
             String endpoint = baseURL + path;
             CloseableHttpResponse httpResponse = invokeService(endpoint);
@@ -65,18 +58,19 @@ public class DBRetriever implements ArtifactRetriever {
     }
 
     /**
-     * Return a CloseableHttpResponse instance
+     * Returns a CloseableHttpResponse instance
      * This method is used to invoke a http service for a given endpoint url
-     *<p>
-     *This method returns a CloseableHttpResponse instance
+     * <p>
+     * This method returns a CloseableHttpResponse instance
      * that implements Closeable interface
      *
-     * @param endpoint                   Absolute URL endpoint
-     * @return CloseableHttpResponse     CloseableHttpResponse that doesn't have a close method itself
-     * @throws IOException               If there are any errors while executing the http request
-     * @throws Exception                 If there are any errors when returning a CloseableHttpResponse
+     * @param endpoint                   the absolute URL endpoint
+     * @return CloseableHttpResponse     the closeableHttpResponse that doesn't have a close method itself
+     * @throws IOException If there are any errors while executing the http request
+     * @throws Exception   If there are any errors when returning a CloseableHttpResponse
      */
     private CloseableHttpResponse invokeService(String endpoint) throws IOException, Exception {
+
         HttpGet method = new HttpGet(endpoint);
         URL url = new URL(endpoint);
         String username = "admin";
@@ -89,7 +83,7 @@ public class DBRetriever implements ArtifactRetriever {
                 + new String(credentials, StandardCharsets.UTF_8));
         HttpClient httpClient;
         httpClient = APIUtil.getHttpClient(port, protocol);
-        // HttpClient httpClient = HttpUtil.getService();
+        //httpClient = HttpUtil.getService();
         try {
             assert httpClient != null;
             return APIUtil.executeHTTPRequest(method, httpClient);
@@ -97,7 +91,6 @@ public class DBRetriever implements ArtifactRetriever {
             throw new Exception(e);
         }
     }
-
 
 }
 
