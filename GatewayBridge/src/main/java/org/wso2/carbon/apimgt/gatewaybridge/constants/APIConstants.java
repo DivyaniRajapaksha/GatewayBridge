@@ -12,6 +12,13 @@ public final class APIConstants {
 
         DEPLOY_API_IN_GATEWAY
     }
+    public static final String CHARSET = "UTF-8";
+    public static final String SYNAPSE_ARTIFACTS = "/synapse-artifacts";
+    public static final String INTERNAL_WEB_APP_EP = "/internal/data/v1";
+    public static final String AUTHORIZATION_HEADER_DEFAULT = "Authorization";
+    public static final String AUTHORIZATION_BASIC = "Basic ";
+
+    public static final String DELEM_COLON = ":";
 
 
 }

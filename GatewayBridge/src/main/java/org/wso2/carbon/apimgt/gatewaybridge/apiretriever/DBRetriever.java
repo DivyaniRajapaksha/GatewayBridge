@@ -7,6 +7,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
+import org.wso2.carbon.apimgt.gatewaybridge.constants.APIConstants;
 import org.wso2.carbon.apimgt.gatewaybridge.listeners.JMSEventListener;
 import org.wso2.carbon.apimgt.gatewaybridge.utils.APIUtil;
 
@@ -35,16 +36,16 @@ public class DBRetriever implements ArtifactRetriever {
     public String retrieveArtifact(String APIId, String gatewayLabel, String gatewayInstruction) throws  Exception {
 
         try {
-            String endcodedGatewayLabel = URLEncoder.encode(gatewayLabel, "UTF-8");
-            String path = "/synapse-artifacts" + "?apiId=" + APIId +
+            String endcodedGatewayLabel = URLEncoder.encode(gatewayLabel, APIConstants.CHARSET);
+            String path = APIConstants.SYNAPSE_ARTIFACTS + "?apiId=" + APIId +
                     "&gatewayInstruction=" + gatewayInstruction + "&gatewayLabel=" + endcodedGatewayLabel;
-            String baseURL = "https://localhost:9443" + "/internal/data/v1";
+            String baseURL = "https://localhost:9443" + APIConstants.INTERNAL_WEB_APP_EP;
             String endpoint = baseURL + path;
             CloseableHttpResponse httpResponse = invokeService(endpoint);
             String gatewayRuntimeArtifact = null;
             if (httpResponse.getEntity() != null) {
                 gatewayRuntimeArtifact = EntityUtils.toString(httpResponse.getEntity(),
-                        "UTF-8");
+                        APIConstants.CHARSET);
                 httpResponse.close();
             }  //    throw new ArtifactSynchronizerException("HTTP response is empty");
 
@@ -75,11 +76,11 @@ public class DBRetriever implements ArtifactRetriever {
         URL url = new URL(endpoint);
         String username = "admin";
         String password = "admin";
-        byte[] credentials = Base64.encodeBase64((username + ":" + password).
+        byte[] credentials = Base64.encodeBase64((username + APIConstants.DELEM_COLON+ password).
                 getBytes(StandardCharsets.UTF_8));
         int port = url.getPort();
         String protocol = url.getProtocol();
-        method.setHeader("Authorization", "Basic "
+        method.setHeader(APIConstants.AUTHORIZATION_HEADER_DEFAULT, APIConstants.AUTHORIZATION_BASIC
                 + new String(credentials, StandardCharsets.UTF_8));
         HttpClient httpClient;
         httpClient = APIUtil.getHttpClient(port, protocol);
