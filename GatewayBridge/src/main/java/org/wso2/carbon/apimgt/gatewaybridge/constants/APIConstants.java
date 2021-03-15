@@ -17,6 +17,10 @@ public final class APIConstants {
     public static final String INTERNAL_WEB_APP_EP = "/internal/data/v1";
     public static final String AUTHORIZATION_HEADER_DEFAULT = "Authorization";
     public static final String AUTHORIZATION_BASIC = "Basic ";
+    public static final String EVENT = "event";
+    public static final String EVENT_TYPE = "eventType";
+    public static final String GATEWAY_INSTRUCTION_PUBLISH = "Publish";
+    public static final String TOPIC_CONNECTION_FACTORY = "TopicConnectionFactory";
 
     public static final String DELEM_COLON = ":";
 

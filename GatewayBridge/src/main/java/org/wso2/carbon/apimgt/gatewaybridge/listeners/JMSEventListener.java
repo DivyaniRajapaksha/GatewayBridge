@@ -69,16 +69,16 @@ public class JMSEventListener implements MessageListener {
                     String key = (String) enumeration.nextElement();
                     map.put(key, mapMessage.getObject(key));
                 }
-                byte[] eventDecoded = Base64.decodeBase64((String) map.get("event"));
+                byte[] eventDecoded = Base64.decodeBase64((String) map.get(APIConstants.EVENT));
                 DeployAPIInGatewayEvent gatewayEvent = new Gson().fromJson(new String(eventDecoded), DeployAPIInGatewayEvent.class);
 
 
-                if ((APIConstants.EventType.DEPLOY_API_IN_GATEWAY.name().equals(map.get("eventType")))) {
+                if ((APIConstants.EventType.DEPLOY_API_IN_GATEWAY.name().equals(map.get(APIConstants.EVENT_TYPE)))) {
 
                     log.debug("GatewayLabels" + gatewayEvent.getGatewayLabels());
 
                     String gatewayLabel = gatewayEvent.getGatewayLabels().iterator().next();
-                    String gatewayRuntimeArtifact = artifactRetriever.retrieveArtifact(gatewayEvent.getApiId(), gatewayLabel, "Publish");
+                    String gatewayRuntimeArtifact = artifactRetriever.retrieveArtifact(gatewayEvent.getApiId(), gatewayLabel, APIConstants.GATEWAY_INSTRUCTION_PUBLISH);
                     if (StringUtils.isNotEmpty(gatewayRuntimeArtifact)) {
                         GatewayAPIDTO gatewayAPIDTO = new Gson().fromJson(gatewayRuntimeArtifact, GatewayAPIDTO.class);
                         log.debug("GatewayAPIDTO    :" + gatewayAPIDTO);
@@ -112,7 +112,7 @@ public class JMSEventListener implements MessageListener {
         Context context = new InitialContext(properties);
 
         ConnectionFactory connectionFactory
-                = (ConnectionFactory) context.lookup("TopicConnectionFactory");
+                = (ConnectionFactory) context.lookup(APIConstants.TOPIC_CONNECTION_FACTORY);
         Connection connection = connectionFactory.createConnection("admin", "admin");
         connection.start();
 
